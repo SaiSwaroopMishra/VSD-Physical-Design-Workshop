@@ -597,7 +597,7 @@ We will type the below command
 
 report_checks -digits 4
 
-The data arrival time and dta required time is:
+The data arrival time and data required time is:
 
 ![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/data%20arrival%20time.PNG)
 
