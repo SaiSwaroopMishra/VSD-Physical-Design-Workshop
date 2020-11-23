@@ -151,7 +151,7 @@ Total 556 that we see is not a file. So, total number of files is 17-1 = 16.
 
 ## Day 2
 
-Second day presents the Chip floorplanning as the preparation before automatic placement and routing. Also presents the requirement of library cells and it design flow.
+Chip floorplanning as the preparation before automatic placement and routing. Also presents the requirement of library cells and it design flow.
 
 ### Chip Floorplaning
 Second workshop day begins with **Chip Floorplanning concept**. Some steps are introduced as part of Chip Floorplanning phase:
@@ -205,65 +205,54 @@ So, you need a **library**, that is a collection of blocks/cells with different 
 
 **Outputs:** CDL, GDSII, LEF, extracted SPICE netlist (.cir)
 
-### Hands-on Labs
+### LABs
+Completion of the preparation step:
 
-Two way hands-on labs are performed in day 2. First one is from learning concepts, to use qflow gui for preparation and placement, as follows:
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/preparation%20step%20done.PNG)
 
-    Create my_picorv32 directory
-    Enter in my_picorv32 directory
-    Create source synthesis layout
+Technology Settings:
 
-    cp ../verilog/picorv32.v source/.
-    Qflow gui &
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/technology%20settings.PNG)
 
-    Select technode osu018
-    Select verilog module picorv32
+Completion of the Synthesis step:
 
-    Set stop
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/synthesis%20done.PNG)
 
-    Prep: run
-    Synthesis: run
+Next is the placement step. Here we have to make the density as 0.7(Utilization Ratio), Aspect Ratio a 1 and rest as default.
 
-    Placement settings: init. Density 0.7
-    Arrange Pins: Auto Group and apply
-    Arrange Pins: New Group and create my_pin_grouping for resetn and clk pins. Check only left box. 
-    
-as we can seen in image below. 
-    
-![q1_2](https://github.com/britovski/PhyDesign_WS/blob/main/images/l22.PNG)
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/placement%20settings.PNG)
 
-    Then, Run placement. 
+Now we have to arrange the pins:
 
-After that, is possible to see placement running with graywolf on below image screen
+For that we create a new group for clk and resetn.
 
-![q2_2](https://github.com/britovski/PhyDesign_WS/blob/main/images/l23.PNG)
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/create%20your%20own%20group.PNG)
 
-**Second lab is guided by MCQs, and the goal is to measure layout area, as follows:**
+Group Created
 
-Type below command
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/my_pin_grouping%20created(we%20can%20see%20at%20the%20bottom).PNG)
 
-    cd
-    cd vsdflow/my_picorv32
-    qflow display picorv32 &
-    
-This will open layout and tkcon window In the layout window, select whole chip using below steps
+Pin Settings for clk and reset(Keep both of them at the bottom and make both of them fixed)
 
-    Take cursor to bottom left
-    Left mouse click
-    Take cursor to top right
-    Right mouse click
-    Press Shift+i
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/pin%20settings%20of%20clk%20and%20reset.PNG)
 
-This will select the whole layout Now in tkcon window, type below command
+Now, completing the placement
 
-    box
+The start of the placement can be seen by the boxes coming as below
 
-What is the area of you chip in microns?
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/these%20boxes%20coming%20proves%20starting%20of%20placement.PNG)
 
-![q3_2](https://github.com/britovski/PhyDesign_WS/blob/main/images/l21.PNG)
+While placement is running.....
 
-As we can see on image above, the answer is '812062.19 microns.'
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/intermediate%20step.PNG)
 
+Placment completed
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/placement%20done.PNG)
+
+Area in micron:
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/area%20in%20micron.PNG)
 
 ## Day 3
 
