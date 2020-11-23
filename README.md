@@ -45,24 +45,42 @@ There is also a gui called as qflow gui.
 Using the link below:
 git clone https://github.com/kunalg123/vsdflow.git
 AFter cloning what we will see something as below:
+
 ![](Images/after%20cloning.PNG)
+
 **Checking whether the tools are correctly installed or not**
 Yosys Installed properly:
+
 ![](Images/yosys%20installed.PNG)
+
 The "yosys>" symbol shows that yosys is installed correctly.
+
 GrayWolf Installed properly:
+
 ![](Images/graywolf%20installed.PNG)
+
 Magic Installed properly:
+
 ![](Images/magic%20installed%20correctly.PNG)
+
 STA Istalled properly:
+
 ![](Images/sta%20installed%20correctly.PNG)
+
 OpenTimer Installed properly:
+
 ![](Images/opentimer%20installed.PNG)
+
 Qrouter Installed properly:
+
 ![](Images/qrouter%20installed%20correctly.PNG)
+
 Path where graywolf is installed:
+
 ![](Images/where%20graywolf%20installed.PNG)
+
 Path where sta is installed:
+
 ![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/which%20sta.PNG)
  
 
