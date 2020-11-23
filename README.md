@@ -41,62 +41,30 @@ There is also a gui called as qflow gui.
 
 ### LABs:
 
-**First step is to clone vsdflow repo**
-
-    git clone https://github.com/kunalg123/vsdflow.git
- 
-**Then vsdflow script is used by typing below commands**
-
-    cd vsdflow
-    ./vsdflow spi_slave_design_details.csv
-    ls -ltr outdir_spi_slave/
-
-**and we can see some files creates**
-
-**entering in the created folder and opening qflow with display option**
-
-    cd outdir_spi_slave
-    qflow display spi_slave
-
-It will open 2 windows "layout1" and "tkcon"
-
-On "tkcon" window, type "box".
-
-Question: What is the output area in microns?
-
-![q1_1](https://github.com/britovski/PhyDesign_WS/blob/main/images/l11.PNG)
-
-As we can show in the image above, the answer is: '15420.24 microns.'
-
-After that the next labs introduce the picorv32 using qflow.
-
-**typing below commands**
-
-    cd
-    cd vsdflow
-    mkdir my_picorv32
-    cd my_picorv32
-    mkdir source synthesis layout
-    cp ~/vsdflow/verilog/picorv32.v source/.
-    qflow gui &
-
-**Select below options in gui**
-
-    Technology = osu018
-    Verilog source file : picorv32.v
-    Verilog module : picorv32
-
-**Click on Set Stop**
-
-**Then run labs till synthesis as shown in Labs Video**
-
-Question: What is the % ratio of flipflop/total logic ?
-
+**Cloning the vsdflow repo**
+Using the link below:
+git clone https://github.com/kunalg123/vsdflow.git
+AFter cloning what we will see something as below:
 ![](Images/after%20cloning.PNG)
-
-The number of DFF cells divided by total number of cells give us the answer of 12-13.99% 
-
-Daily sync calls with zoom platform are used to track workshop progress and clarify questions.  
+**Checking whether the tools are correctly installed or not**
+Yosys Installed properly:
+![](Images/yosys%20installed.PNG)
+The "yosys>" symbol shows that yosys is installed correctly.
+GrayWolf Installed properly:
+![](Images/graywolf%20installed.PNG)
+Magic Installed properly:
+![](Images/magic%20installed%20correctly.PNG)
+STA Istalled properly:
+![](Images/sta%20installed%20correctly.PNG)
+OpenTimer Installed properly:
+![](Images/opentimer%20installed.PNG)
+Qrouter Installed properly:
+![](Images/qrouter%20installed%20correctly.PNG)
+Path where graywolf is installed:
+![](Images/where%20graywolf%20installed.PNG)
+Path where sta is installed:
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/which%20sta.PNG)
+ 
 
 ## Day 2
 
