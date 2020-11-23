@@ -19,7 +19,7 @@ An introduction to RISC-V architeture:
 - Then RTL to layout is a standard RTL2GDS flow.
 PicoRV32 - Clifford Wolf's open source implementation of a RISC-V RV32IMC.
 - I stands for BAsic Integer Instruction Set.
-- M stand s for Hardware Multiplier adn Divider.
+- M stands for Hardware Multiplier adn Divider.
 - C stands for compressed instrucitons(16 bit).
 SoC is the complete system on a chip. Ex: Raven SOC = PicoRV32(options selected) + RAM blocks + SPI Flash Controller + UART + GPIO + I/O Address Decoder + IRQ Routing
 
@@ -151,22 +151,24 @@ Total 556 that we see is not a file. So, total number of files is 17-1 = 16.
 
 ## Day 2
 
-Chip floorplanning as the preparation before automatic placement and routing. Also presents the requirement of library cells and it design flow.
+This day is focussed on to complete floor planning.
 
 ### Chip Floorplaning
-Second workshop day begins with **Chip Floorplanning concept**. Some steps are introduced as part of Chip Floorplanning phase:
 1) Define width and height of core and die based on standard cell dimensions
 - Place all standard cells inside the core
-- notions of utilization factor and aspect ratio.
+- Aspect Ratio = Height/Width
+- Utiliztion Factor = Area occupied by the netlist/Total Area of the core 
 2) Define location of pre-placed cells
-- separate circuits in to blocks or modules
-- select available IP's
-   * The arrangement of the cells (IP's, blocks, modules) is referred as floorplanning.
-   * pre-placed cells are placed in user-defined locations before automated place and route.
+- All of them can be implemented once and can be instantiatd multiple times on to a netlist
+- The arrangement of the cells (IP's, blocks, modules) is referred as floorplanning
+- pre-placed cells are placed in user-defined locations before automated place and route
+- Examples of preplaced cells are memories, clock gating cells, comparator, mux. 
 3) Surround pre-placed cells with decoupling capacitors.
-   * Noise margin concept is presented (NMh for '1' and NMl for '0')
+- Noise margin(NMh for '1' and NMl for '0')
+- NMh = Voh - Vih
+- NMl = Vil - Vol
 - Vdd or Vss could drop without decoupling caps between Vdd and Vss;
-   * Decoupling caps. are huge caps between Vdd and Vss and need to be placed near the circuit/block.
+- Decoupling capacitors are huge capacitors between Vdd and Vss and need to be placed near the circuit/block.
 4) Power planning
 - If many blocks discharges from '1' to '0' at same time in a single ground cause a bump (Gnd bounce). If from '0' to '1' a voltage droop (for single Vdd).
 - Istead of single supply lines, use multiple arrays of power supply (Vdd and Vss points). 
@@ -176,32 +178,24 @@ Second workshop day begins with **Chip Floorplanning concept**. Some steps are i
 - bigger PADs for clock pins.
 6) Logical Cell placement blockage --> add PAD ring blocks.
 
-**After floorplanning. We are ready for placement and routing steps**
-
-Some tips are provided to use 'qflow gui' to setup placement (using pin arrangement UI).
-
-Before introduction of Cell Design flow, some motivation is provided about **Placement** phase.
-
 ### Placement 
 1) Before placement is required to bind netlist with physical cells. 
 
-So, you need a **library**, that is a collection of blocks/cells with different flavors, sizes, *vt*, etc...).
+So, we need a **library**, that is a collection of blocks/cells with different flavors, sizes, Vt(Threshold Voltage), etc.
 
 2) Place the cells
 
 3) Optimize the placement
- - check signal integrity;
- - add buffers for long paths;
-
-4) After optimization, setup the timimg analysis with ideal clock. **we return to this on Day 4**
+ - Check signal integrity
+ - Add buffers for long paths
 
 ### Cell Design Flow (standard cells)
 
-**Inputs:** PDKs, rules (DRC e LVS) and tech files, SPICE models, libraries and user defined specifications (supply voltages, layers, cell sizes, etc...).
+**Inputs:** PDKs, rules (DRC e LVS) and tech files, SPICE models, libraries and user defined specifications (supply voltages, layers, cell sizes, etc).
 
-**Design steps:** circuit design, layout design, characterization (timing, noise, power, .libs, functions, etc...).
+**Design steps:** circuit design, layout design, characterization (timing, noise, power, .libs, functions, etc).
 - GUNA software for characterization
-- timing characterization is based on threshold definitions, propagation delays and transition times.
+- Timing characterization is based on threshold definitions, propagation delays and transition times.
 
 **Outputs:** CDL, GDSII, LEF, extracted SPICE netlist (.cir)
 
@@ -256,7 +250,7 @@ Area in micron:
 
 ## Day 3
 
-Third day is focused on the design and characterization of one library cell using MAGIC layout tool and ngspice.
+Third day is based on the design and characterization of library cell using MAGIC layout tool and ngspice.
 
 ### SPICE Simulations (pre-layout)
 - SPICE deck / netlisting
@@ -268,7 +262,7 @@ Third day is focused on the design and characterization of one library cell usin
 
 ### Art of Layout - Euler´s path and stick diagram
 - pull-up + pull-down networks (concept introduced by building a complex logic circuit with 6 inputs and 1 output).
-- pre-layout SPICE simulations (you can use virtual machine or cygdrive on windows for ngspice and MAGIC)
+- pre-layout SPICE simulations (we can use virtual machine or cygdrive on windows for ngspice and MAGIC)
 - discussion of stick diagram only vs using Euler´s path.
  * stick only needs lots of contacts/metal connections and diffusion breaks;
  * with Euler´s path is the best option.
@@ -277,161 +271,169 @@ Third day is focused on the design and characterization of one library cell usin
 - Do stick diagram with gates re-ordered.
 - Abstract level layout can be done using optimized stick diagram.
 
-### MAGIC Labs
-- stick diagram to layout or abstract level layout to real layout dimensions;
-- check tech file/design rules;
-- derive actual dimensions;
-- prepare script to create layout in MAGIC (*draw_fm.tcl*);
-- final layout and labeling
-
-        > magic -T 'techfile'
-        put script commands in tkcon to create layout step-by-step
-        or use 
-        > source draw_fm.tcl
-        finish layout
-        label and save
-        
-- Extract SPICE with parasitics, typing below commands in tkcon
-
-        > extract all
-        > ext2spice
-
-### Post-layout simulation
-- use .ext file from MAGIC extraction
-- simulate and compare with pre-layout
-
 ### CMOS Fabrication Process
 
 A 16-mask CMOS process is used as example to show how all layout regions are related to the fabrication process.
 
-### Hands-on Labs
+### LABs
 
-For the third day labs, the MCQs guide to use ngspice_labs repo @ github.
+Git cloning ngspice lab:
 
-**First step is to clone ngspice_labs repo**
+command:
 
-    git clone https://github.com/kunalg123/ngspice_labs.git
- 
-After that, some tasks are guided, as to check transistor sizes
+cd
 
-    cd ngspice_labs
-    cat inv.spice
+git clone https://github.com/kunalg123/ngspice_labs.git
 
-What is the width of PMOS and NMOS transistors?
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/after%20git%20cloning%20ngspice%20labs.PNG)
 
-![q1_3](https://github.com/britovski/PhyDesign_WS/blob/main/images/33.PNG)
+PMOS and NMOS Width:
 
-As we can see in image above, the answer is '0.5 for PMOS and 0.375 for NMOS', respectively.
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/pmos%20and%20nmos%20width.PNG)
 
-Then, we go through simulations
+Clearly we can see the pmos width is 0.5 and the nmos width is 0.375
 
-Go to labs, open terminal
-Type below commands
+Finding the ratio between Wp and Wn:
 
-    cd ngspice_labs
-    ngspice inv.spice
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/finding%20out%20wp%2Cwn%20ratio.PNG)
+
+Finding the Switching threshold:
+
+Command:
+
+cd
+
+cd ngspice_labs
+
+ngspice inv.spice
 
 There will be terminal like below
 
-    ngspice 1 ->
+ngspice 1 ->
 
 On the above ngspice terminal, type below commands
 
-    run
-    setplot dc1
-    plot out in
+run
+
+setplot dc1
+
+plot out in
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/opening%20vtc(mcq%208).PNG)
 
 This will open a plot with CMOS VTC and Blue 45 degree line
-Click on the intersection of Blue line and CMOS VTC.
-Go to terminal
-What does "x0" value lies between?
 
-![q2_3](https://github.com/britovski/PhyDesign_WS/blob/main/images/34.PNG)
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/CMOS%20VTC%20and%20Blue%2045%20degree%20line.PNG)
 
-As we can seen in image above, the answer is '1.0v-1.1v'
+Click on the intersection of Blue line and CMOS VTC. The x0 point is the switching threshold
 
-Then, go to labs, open terminal
-Type below command
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/shows%20x0%20value%20lies%20between%201.0%20to%201.1.PNG)
 
-    leafpad inv.spice
+This shows x0 lies in between 1.0 and 1.1
 
-Edit the width of PMOS to 0.75u
-Press Ctrl+s to save the file and exit the file
-Repeat experiment given in D3SK1 - MCQ8 (previous MCQ)
-Where does the switching threshold lies between?
+Editing width of pmos to 0.75u in leafpad:
 
-![q3_3](https://github.com/britovski/PhyDesign_WS/blob/main/images/35.PNG)
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/after%20changing%20pmos%20width%20to%200.75u.PNG)
 
-As we can seen in image above, the answer is '1.1v-1.2v'
+Plot after pmos width changed
 
-Go to labs, open terminal
-Open file called "inv_tran.spice" using below command
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/plot%20after%20pmos%20width%20changed.PNG)
 
-    leafpad inv_tran.spice
+Finding the x0 point
 
-Change PMOS width to 0.75u, Save and Close
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/pmos%20width%20changes%20points.PNG)
 
-Type below commands for transient simulations
+This is in between 1.1 and 1.2
 
-    ngspice inv_tran.spice
-    ngspice 1 -> run
-    ngspice 1 -> setplot tran1
-    ngspice 1 -> plot out in
+Finding the rise delay:
 
-What is the rise delay? Refer to Lesson 4 of D3SK1 to learn how to calculate rise delay
+Input and Output plot together
 
-![q3_4](https://github.com/britovski/PhyDesign_WS/blob/main/images/39corr.PNG)
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/mcq%2011.PNG)
 
-As we can seen in image above, the answer is approximately '76ps'.
+Expanded plot
 
-Go to labs, open terminal
-Type below commands
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/Expanded%20plot%20for%20calculating%20rise%20delay.PNG)
 
-    cd ngspice_labs
-    magic -T min2.tech
+We have to check for the input and output values at peak_value/2 or 1.25
 
-This will open magic layout window and tkcon window
-Go to tkcon window and type below command
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/rise%20delay%20calculation.PNG)
 
-    source draw_fn.tcl
+We can see this somewhat around to 80ps. The answer in the mcq is 76ps which closest to this. This is a human error because we cannot select the exact preicse point.
 
-In layout window, how many nsubstratecontact and how many polysilicon strips you observe?
+Finding out the intersection point of the plot and the 1.25 line:
 
-![q3_5](https://github.com/britovski/PhyDesign_WS/blob/main/images/37.PNG)
+Commands:
 
-As we can seen in image above, the answer is '8 e 6', respectively.
+cd
 
-Go to labs, open terminal
-Type below command
+cd ngspice_labs
 
-    cd ngspice_labs
-    magic -T min2.tech fn_postlayout.mag &
+ngspice fn_prelayout.spice
 
-What is the area of this design?
+ngspice 1 -> run
 
-![q3_6](https://github.com/britovski/PhyDesign_WS/blob/main/images/38.PNG)
+ngspice 1 -> setplot tran1
 
-As we can seen in image above, the answer is '4489 microns.'
+ngspice 1 -> plot out 1.25
 
-After that, the MCQ guide to perform the post-layout simulation of the previously presented logic circuit, doing parasitic extraction and then editing the file with the same simulation commands from pre-layout simulation.
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D3SK2%20-%20MCQ1%20output.PNG)
 
-![q3_7_1](https://github.com/britovski/PhyDesign_WS/blob/main/images/41.PNG)
+This is value is around 1.6e-09
 
-Question: What is the value of X0 at intersection rising & falling waveform and intersection of horizontal blue line?
+X0 at intersection of horizontal blue line and middle falling waveform:
 
-![q3_7_2](https://github.com/britovski/PhyDesign_WS/blob/main/images/42.PNG)
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D3SK2%20-%20MCQ2%20output.PNG)
 
-As we can seen in image above and performing calculations, the answer is 'around 1.58ns and 2.27ns respectively'.
-* There was no blue line, but we figure out that is calculated in reference to the the Vdd/2 X value.
+Finding the pulse width:
 
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D3SK2%20-%20MCQ3%20output.PNG)
+
+This is around 650ps
+
+Finding the number of nsubstrate contact and polysilicon strips:
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D3SK3%20-%20MCQ3.PNG)
+
+Clearly we have 6 nsubstrate conatact and 6 polysilicon strips
+
+Finding the area of the design:
+
+Commands:
+
+cd
+
+cd ngspice_labs
+
+magic -T min2.tech fn_postlayout.mag &
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D3SK3%20-%20MCQ4%20layout.PNG)
+
+Area can be found out by selecting the whole layout and the executing the command box in the tkcon
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D3SK3%20-%20MCQ4%20area.PNG)
+
+So, the area is 4489 micron.
+
+Finding out x0 at intersection of rising & falling waveform and intersection of horizontal blue line in the postlayout spice:
+
+Postlayout simulation waveform
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/postlayout%20simulation%20waveform.PNG)
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D3SK3%20-%20MCQ5.PNG)
+
+This is around 1.58ns and 2.27ns respectively.
 
 ## Day 4
 
-Day 4 is focused on timing analysis and some concepts of clock tree synthesis. First is shown timing modeling using delay tables and then is shown how timing analysis is performed with ideal and real clocks.
+Day 4 is focused on Static timing analysis and some concepts of clock tree synthesis. 
+
+First timing analysis is done using delay tables, then using ideal clocks, then using real clocks.
 
 ### Timing Modeling
 
-Timing modeling is performed with the use of delay tables, that combines *input slews* and *output load* values.
+Timing modeling is performed with the use of delay tables. Depending upon the input slew and output load we can get the delay for the buffer or any other gate.
 
 In order to model timing for clock tree structures, is necessary to take care with:
 - at every level, each node drive same load;
@@ -439,88 +441,194 @@ In order to model timing for clock tree structures, is necessary to take care wi
 
 ### Timing analysis (with ideal clock)
 
-If *T* is the clock period and *Teta* is the combinational logic delay, is necessary that *T > Teta*.
+If T is the clock period and td is the combinational logic delay, then T>td. 
 
-Considering setup time *S* for a capture FF, *Teta < (T-S)*.
+If the setup time for the capture flipflop is S, the T > td + S. Otherwise there will be setup time violation.
 
-Considering clock jitter, is necessary to take care with setup time uncertainty *SU*, so *Teta < (T-S-SU)*.
+If the jitter is considered then T > td + S + SU. Otherwise there wil be violation.
+
+Jitter is a temporary timing problem which can be removed if the semiconductor temperature and power noise is maintained correctly.
 
 ### Clock Tree Synthesis (CTS)
 
-The goal of CTS is to put clock skew as low as possible (ideally *0 ps*).
+The main reason for preforming CTS is to remove clock skew. Ideally it should be 0.
 
-Some techniques are used to achieve a good CTS:
-- H-Tree technique (midpoints to derive clock);
-- Buffering (since H-Tree do not avoid long paths, we need to put buffers);
-- Net shielding (to avoid crosstalk/glitches).
+Some techniques are used to achieve a good CTS
+- H-Tree technique (midpoints to derive clock)
+- Using buffers (since H-Tree do not avoid long paths, we need to put buffers)
+- Net shielding (to avoid crosstalk/glitches)
 
 ### Timing analysis (with real clock)
 
-In real timing analysis is necessary to consider clock delays.
+For timing analysis with real clocks we will consider all the delays, even the clock delays.
 
-Considering the topology of a launch FF connected to a combinational logic circuit and then with a capture FF, *Delta1* been the delay from *CLK* to launch FF, and *Delta2 been the delay from *CLK* to capture FF, *(Teta + Delta1) < [(T + Delta2) - S - SU]*. The first term is the Data Arrival Time (DAT) and the second term is the Data Required Time (DRT). *DRT- DAT* is known as *Slack* and need to be *0* or positive.
+### LABs
 
-You can also do timing analysis considering hold time *H* istead of setup time. In this case, *(Teta + Delta1) > [(T + Delta2) + H + HU]*.
+Finding the input rise and fall slew:
 
-### Hands-on Labs
+command:
 
-The labs are performed to analyze .lib file and also to setting up files for 'sta'.
+cd
 
-Some inspections of the below file are done
+git clone https://github.com/kunalg123/ngspice_labs
 
-    /usr/local/share/qflow/tech/osu018/osu018_stdcells.lib
+cd ngspice_labs
 
-Then, labs goes to setting up files for timing analysis.
+cat inv_tran.spice
 
-Type below command
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/rise%20and%20fall%20delay.PNG)
 
-    cd vsdflow/my_picorv32
-    leafpad picorv32.sdc
+Clearly we can see both are 10ps.
 
-Type below lines in the file picorv32.sdc file which you have just opened above
+Finding out output load and rise delay:
 
-    create_clock -name clk -period 2.5 -waveform {0 1.25} [get_ports clk]
+Command:
 
-Save and close the above file
+cd
+
+cd ngspice_labs
+
+cat inv_tran.spice
+
+ngspice inv_tran.spice
+
+ngspice plot
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK1%20-%20MCQ7%20plot.PNG)
+
+Expanded plot
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/plot%20to%20find%20rise%20delay%20in%20D4SK1%20-%20MCQ7.PNG)
+
+Points
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK1%20-%20MCQ7%20points.PNG)
+
+Calculation
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK1%20MCQ7%20answer.PNG)
+
+Changing the output load to 20fF and calculating the rise delay:
+
+Plot
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK1%20-%20MCQ8%20plot.PNG)
+
+Calculation
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK1%20-%20MCQ8%20calulated.PNG)
+
+Using the stdcell library to find out various values:
+
+Path
+
+/usr/local/share/qflow/tech/osu018/osu018_stdcells.lib
+
+We can use either vim, leafpad or less to findout the values. I used vim.
+
+slew_upper_threshold_pct_fall:
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK2%20-%20MCQ6.PNG)
+
+Clearly we get 80%
+
+output_threshold_pct_rise :
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK2%20-%20MCQ7.PNG)
+
+2 variables of "delay_template_5x5":
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK2%20-%20MCQ8.PNG)
+
+The variables are total_net_output_capacitance and input_net_transition
+
+The delay table below line number 2943 is for which cell:
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK2%20-%20MCQ9.PNG)
+
+This is for INVX1.
+
+Delay template that is used for INVX1:
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK2%20-%20MCQ10.PNG)
+
+Delay template that is used for INVX1 is delay_template_5x5
+
+Finding various parameters:
+
+Command:
+
+cd
+
+cd vsdflow/my_picorv32
+
+leafpad picorv32.sdc
+
+We will type below lines in the file picorv32.sdc which we have just opened above
+
+create_clock -name clk -period 2.5 -waveform {0 1.25} [get_ports clk]
+
+We will save and close the above file
+
+Now we will type the below command
+
+leafpad prelayout_sta.conf
+
+Next we will type the below lines in prelayout_sta.conf file which we have just opened above
+
+read_liberty /usr/local/share/qflow/tech/osu018/osu018_stdcells.lib
+
+read_verilog synthesis/picorv32.rtlnopwr.v
+
+link_design picorv32
+
+read_sdc picorv32.sdc
+
+report_checks
+
+We will save and close the above file
 
 Now type below command
 
-    leafpad prelayout_sta.conf
+sta prelayout_sta.conf
 
-Type below lines in prelayout_sta.conf file which you have just opened above
+Slack Value:
 
-    read_liberty /usr/local/share/qflow/tech/osu018/osu018_stdcells.lib
-    read_verilog synthesis/picorv32.rtlnopwr.v
-    link_design picorv32
-    read_sdc picorv32.sdc
-    report_checks
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK2%20-%20MCQ11%20slack.PNG)
 
-Save and close the above file
+We will type the below command
 
-Now type below command
+report_checks -digits 4
 
-    sta prelayout_sta.conf
+The data arrival time and dta required time is:
 
-What is the SLACK value you see?
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/data%20arrival%20time.PNG)
 
-![q3_4](https://github.com/britovski/PhyDesign_WS/blob/main/images/l43.PNG)
+Next we will type the below command
 
-As we can see in the image above, the answer is '-0.56'.
+set_propagated_clock [all_clocks]
 
-Repeat all steps.
-NOTE - If you have already done that, then you will see below 'sta' terminal like below
+report_checks
 
-    %
+SLACK value after clock propagation:
 
-Type below command
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK4%20-%20MCQ2.PNG)
 
-    report_checks -digits 4
+Launch Clock Network Delay:
 
-What is the data arrival time?
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK4%20-%20MCQ3%20lauch%20clock%20network%20delay.PNG)
 
-![q3_4](https://github.com/britovski/PhyDesign_WS/blob/main/images/l44.PNG)
+Capture Clock Network Delay:
 
-As we can see in the above image, the answer is '2.9001'.
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK4%20-%20MCQ4%20capture%20clock%20network%20delay.PNG)
+
+Next we will type the below command to find out library hold time and hold slack:
+
+report_checks -path_delay min -digits 4
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D4SK4%20-%20MCQ5%20library%20hold%20time%20and%20hold%20slack.PNG)
+
+It is around -9.4ps and 222.5ps respectively.
 
 ## Day 5
 
@@ -528,68 +636,58 @@ Final workshop day is focused on routing and other steps for final SoC Design.
 
 ### Routing
 Explanation of Maze routing - Lee´s Algorithm
-- creates a routing grid;
-- find best route from a source to a target;
-- automated process*;
+- It creates a routing grid
+- It finds the best route from a source to a target
+- It is an automated process
+
+Optical Photolithography is used to build wires. So, we need light for this. 
 
 ### DRC
-- know typical rules;
-- check for DRC violations;
-- make a DRC clean.
+-DRC-Design Rule Check
+-If there is a drc error we have to do drc clean
+-Some critical drc checking points are signal short, via spacing, via width, wire width, wire pitch, wire spacing
+-To remove signal short we usually use different metals where there is a short. Usually the above wire is wider than the below.
 
 ### Parasitics Extraction
-- Every physical via is represented at least as an RC circuit;
-- SPEF / IEEE 1481-1999 (Representation format);
-
-### Pending: signoff timing analysis (complete timing analysis using SPEF) and power analysis
-
-### Some tips of Qflow on PnR
-- Pin placemente/add groups. Try to relax constraints if get errors;
-- STA, result includes max. clock
-- Routing, that creates parasitic file for post-route STA
-- Migration, just converts results into file format used by open galaxy
-- Using edit layout (*s* for top level cell selection, and *shift + f* to expand cell view).
-
-### Hands-on Labs
+-SPEF: Standard Parasitics Exchange Format
+-IEEE 1481-1999
+### LABs
 
 The labs were focused on timing analysis before and after timing analysis.
 
-Open terminal
-Type below commands
+Finding out the pre layout frequency:
 
-    cd vsdflow/my_picorv32
-    qflow route picorv32
-    qflow sta picorv32
-    qflow backanno picorv32
-    leafpad log/sta.log
+Command:
 
-What is the pre-layout frequency?
-Hint - Search for case-sensitive keyword "MHz"
+cd
 
-![q1_5](https://github.com/britovski/PhyDesign_WS/blob/main/images/l54.PNG)
+cd vsdflow/my_picorv32
 
-As we can see in above image, the answer is '314 MHz'.
+qflow route picorv32
 
-Then, doing routing...
+qflow sta picorv32
 
-![q2_5](https://github.com/britovski/PhyDesign_WS/blob/main/images/l52.PNG)
+qflow backanno picorv32
 
-and open the below file
+leafpad log/sta.log
 
-    log/post_sta.log
+The routing will take around 40 minutes to complete.
 
-What is post-layout frequency?
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/maximum%20clock%20frequency.PNG)
 
-![q1_5](https://github.com/britovski/PhyDesign_WS/blob/main/images/l55.PNG)
+This is around 314MHz
 
-As we can see in above image, the answer is '294 MHz'.
+Finding out the post layout frequency:
+
+We will use the below command:
+
+log/post_sta.log
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/maximum%20freq%20after%20post%20layout.PNG)
+
+This is around 294 MHz
 
 So, after routing, a drop in '20 MHz' can be observed for the maximum clock frequency.
-
-
-## Final notes
-
-Good to learn physical design skills from digital side and to know the basic opensource tools flow.
 
 ## Acknowledgement
 
