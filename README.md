@@ -640,14 +640,14 @@ Explanation of Maze routing - Lee´s Algorithm
 Optical Photolithography is used to build wires. So, we need light for this. 
 
 ### DRC
--DRC-Design Rule Check
--If there is a drc error we have to do drc clean
--Some critical drc checking points are signal short, via spacing, via width, wire width, wire pitch, wire spacing
--To remove signal short we usually use different metals where there is a short. Usually the above wire is wider than the below.
+- DRC-Design Rule Check
+- If there is a drc error we have to do drc clean
+- Some critical drc checking points are signal short, via spacing, via width, wire width, wire pitch, wire spacing
+- To remove signal short we usually use different metals where there is a short. Usually the above wire is wider than the below.
 
 ### Parasitics Extraction
--SPEF: Standard Parasitics Exchange Format
--IEEE 1481-1999
+- SPEF: Standard Parasitics Exchange Format
+- IEEE 1481-1999
 ### LABs
 
 The labs were focused on timing analysis before and after timing analysis.
