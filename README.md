@@ -356,7 +356,7 @@ We have to check for the input and output values at peak_value/2 or 1.25
 
 ![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/rise%20delay%20calculation.PNG)
 
-We can see this somewhat around to 80ps. The answer in the mcq is 76ps which closest to this. This is a human error because we cannot select the exact preicse point.
+We can see this somewhat around to 80ps. The answer in the mcq is 76ps which is closest to this. This is a human error because we cannot select the exact precise point.
 
 Finding out the intersection point of the plot and the 1.25 line:
 
