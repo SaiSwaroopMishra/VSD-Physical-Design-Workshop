@@ -442,7 +442,7 @@ If T is the clock period and td is the combinational logic delay, then T>td.
 
 If the setup time for the capture flipflop is S, the T > td + S. Otherwise there will be setup time violation.
 
-If the jitter is considered then T > td + S + SU. Otherwise there wil be violation.
+If the jitter is considered then T > td + S + SU. Otherwise there will be violation.
 
 Jitter is a temporary timing problem which can be removed if the semiconductor temperature and power noise is maintained correctly.
 
