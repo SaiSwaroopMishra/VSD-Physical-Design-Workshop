@@ -42,13 +42,17 @@ There is also a gui called as qflow gui.
 ### LABs:
 
 **Cloning the vsdflow repo**
+
 Using the link below:
+
 git clone https://github.com/kunalg123/vsdflow.git
+
 AFter cloning what we will see something as below:
 
 ![](Images/after%20cloning.PNG)
 
 **Checking whether the tools are correctly installed or not**
+
 Yosys Installed properly:
 
 ![](Images/yosys%20installed.PNG)
