@@ -87,6 +87,67 @@ Path where sta is installed:
 
 ![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/which%20sta.PNG)
  
+qfow gui:
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/qflow%20gui.PNG)
+
+**Other hands-on**
+
+Finding the output area:
+
+Commands:
+
+cd outdir_spi_slave
+
+qflow display spi_slave
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/area%20in%20micron%20D1SK4%20-%20MCQ7.PNG)
+
+% Ratio of flipflop/total logic:
+
+Creating the outdir_spi_slave
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/outdir_spi_slave%20created.PNG)
+
+Commands for using qflow
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/commands%20for%20using%20qflow.PNG)
+
+Running correctly....
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/running%20correctly.PNG)
+
+Synthesis preparation settings
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/synthesis%20preparation%20settings.PNG)
+
+Synthesis completed
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/synthesis%20completed.PNG)
+
+Statistics after synthesis
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/picorv32%20statistics%20after%20synthesis.PNG)
+
+Calculation of percentage
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/D1SK4%20-%20MCQ8%20percentage.PNG)
+
+Number of files inside outdir_spi_slave:
+
+commands:
+
+cd vsdflow
+
+./vsdflow spi_slave_design_details.csv
+
+ls -ltr outdir_spi_slave/
+
+ls -ltr outdir_spi_slave | wc
+
+![](https://github.com/SaiSwaroopMishra/VSD-Physical-Design-Workshop/blob/main/Images/16%20files.PNG)
+
+Total 556 that we see is not a file. So, total number of files is 17-1 = 16.
 
 ## Day 2
 
