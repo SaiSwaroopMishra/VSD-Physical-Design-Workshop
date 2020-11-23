@@ -26,13 +26,13 @@ SoC is the complete system on a chip. Ex: Raven SOC = PicoRV32(options selected)
 ### Design tools
 The goal is to show the complete RTL2GDS flow using opensource tools.List of tools used are:
 List of Tools:
-•Yosys RTL Synthesis
-•blifFanout- High fanout net (HFN) synthesis
-•graywolf- Placement
-•qrouter- Detailed routing
-•Magic- VLSI Layout tool
-•Netgen- LVS
-•OpenTimer and OpenSTA- Static timing analysis tool
+-Yosys RTL Synthesis
+-blifFanout- High fanout net (HFN) synthesis
+-graywolf- Placement
+-qrouter- Detailed routing
+-Magic- VLSI Layout tool
+-Netgen- LVS
+-OpenTimer and OpenSTA- Static timing analysis tool
 
 Last but not least, Qflow is presented as a complete tool chain (using tools as Yosys and graywolf) for complete RTL2GDS flow.
 
@@ -254,22 +254,19 @@ Third day is based on the design and characterization of library cell using MAGI
 
 ### SPICE Simulations (pre-layout)
 - SPICE deck / netlisting
-- ngspice intro with simulation commands (source, run, setplot, display, plot...)
-- static behaviour evaluation (example of CMOS INV robustness)
- 1. switching thereshold (*Vm*)
-- dynamic behaviour evaluation
- 2. propagation delay (rise and fall)
+- ngspice intro with simulation commands (source, run, setplot, display, plot)
+- Static behaviour evaluation (example of CMOS INV robustness)
+ 1. Switching thereshold (Vm)
+- Dynamic behaviour evaluation
+ 2. Propagation delay (rise and fall)
 
 ### Art of Layout - Euler´s path and stick diagram
-- pull-up + pull-down networks (concept introduced by building a complex logic circuit with 6 inputs and 1 output).
-- pre-layout SPICE simulations (we can use virtual machine or cygdrive on windows for ngspice and MAGIC)
-- discussion of stick diagram only vs using Euler´s path.
- * stick only needs lots of contacts/metal connections and diffusion breaks;
- * with Euler´s path is the best option.
+- Pull-up + Pull-down networks
+- Pre-layout SPICE simulations
+- Layout design only using stick diagram as well as using Euler´s path, then stick diagram.
+- Without using Euler's path there will be lots of diffusion breaks and contacts. And it may lead to lot's of confusion.
+- Euler's path is best method for a error free stick diagram.
 - Euler´s path is the first step to input gate re-order (that is an optimization for stick diagram).
- * PMOS + NMOS network graphs (numbering nodes and edges as transistor labels).
-- Do stick diagram with gates re-ordered.
-- Abstract level layout can be done using optimized stick diagram.
 
 ### CMOS Fabrication Process
 
